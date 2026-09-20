@@ -1,42 +1,23 @@
-// const authController = (req, res)=>{
-//     const balance = 10000
-//     // const {userName , pass , email} = req.body
-//     // if(!userName){
-//     //     res.send("userName dite hobe")
-//     // }else if (!email){
-//     //     res.send("email dite hobe")
-//     // }else if (!pass){
-//     //     res.send("password dite hobe")
-//     // }else{
-
-//     //     console.log(userName, pass, email)
-//     // }
-//   res.send(balance)
-
-// }
-
-const Usermodel = require("../model/Usermodel");
+const UserModel = require("../model/UserModel");
 
 const getAllUsers = async (req, res) => {
-  const data = await Usermodel.find()
-  res.send(data)
+    const data = await UserModel.find()
+    res.send(data)
 };
-
 const registration = async (req, res) => {
   const { username, email, password } = req.body;
 
- const existedUser = await Usermodel.findOne({email: email})
-if(existedUser){
-  res.status(409).json({
-    succes: false,
-    message: "User Already existed",
-    email: existedUser.email
-  })
-  return
-}
+    const existedUser = await UserModel.findOne({email: email})
+    if(existedUser){
+        res.status(409).json({
+          success: false,
+          message: "User already existed",
+          email: existedUser.email
+        })
+        return
+    }
 
-
-  const users = new Usermodel({
+  const users = new UserModel({
     username: username,
     email: email,
     password: password,
@@ -44,34 +25,39 @@ if(existedUser){
 
   await users.save();
 
-  // res.send("User registered successfully");
   res.status(201).json({
     success: true,
     message: "User Created Successfully",
-    data: users,
-  });
+    data: users
+  })
 };
 
 const userDelete = async (req, res) => {
-   const id = req.params
+  const id = req.params
   try {
-      await Usermodel.findByIdAndDelete(id.id)
-      res.send("delete hoise")
+    await UserModel.findByIdAndDelete(id.id)
+    res.send("Delete hoice")
   } catch (error) {
-    res.send("User can't delete")
+    res.send("User can't deleted")
   }
-
+  
 };
 const userUpdate = async (req, res) => {
-   const id = req.params
-   const {username, email, password} = req.body
+  const id = req.params
+  const {username, email,password} = req.body
   try {
-    await Usermodel.findByIdAndUpdate(id.id,{username, email, password})
-      res.send("update hoise")
+    await UserModel.findByIdAndUpdate(id.id,{username, email, password})
+    res.send("update hoice")
   } catch (error) {
     res.send("User can't updated")
-  
   }
+  
 };
 
-module.exports = { getAllUsers, registration, userDelete, userUpdate};
+module.exports = { getAllUsers, registration, userDelete, userUpdate };
+
+
+// C
+// R
+// U
+// D
